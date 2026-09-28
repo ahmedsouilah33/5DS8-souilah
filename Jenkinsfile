@@ -55,6 +55,17 @@ pipeline {
                 }
             }
         }
+
+        stage('Orchestration Docker Compose') {
+            steps {
+                sh 'docker compose down || true'
+                sh 'docker compose up -d'
+                sh 'sleep 15'
+                sh 'docker compose ps'
+                sh 'curl -f http://localhost:8081/entreprise/all || echo "Backend pas encore pret"'
+                sh 'docker compose down'
+            }
+        }
     }
 
     post {
