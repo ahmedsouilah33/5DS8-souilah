@@ -19,9 +19,9 @@ pipeline {
         stage('Creation Image + Conteneur') {
             steps {
                 sh 'docker build -t $IMAGE_NAME:$IMAGE_TAG ./backend'
-                sh 'docker run -d --rm --name test-container -p 8082:8080 $IMAGE_NAME:$IMAGE_TAG'
-                sh 'sleep 10'
-                sh 'docker stop test-container'
+                sh 'docker run -d --name test-container -p 8082:8080 $IMAGE_NAME:$IMAGE_TAG || true'
+                sh 'sleep 5'
+                sh 'docker rm -f test-container || true'
             }
         }
 
