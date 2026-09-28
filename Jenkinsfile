@@ -38,6 +38,15 @@ pipeline {
                 sh 'docker push $IMAGE_NAME:latest'
             }
         }
+
+        stage('Build & Push Frontend') {
+            steps {
+                sh 'docker build -t $IMAGE_NAME:frontend-$BUILD_NUMBER ./frontend'
+                sh 'docker push $IMAGE_NAME:frontend-$BUILD_NUMBER'
+                sh 'docker tag $IMAGE_NAME:frontend-$BUILD_NUMBER $IMAGE_NAME:frontend-latest'
+                sh 'docker push $IMAGE_NAME:frontend-latest'
+            }
+        }
     }
 
     post {
